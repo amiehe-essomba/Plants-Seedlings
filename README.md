@@ -231,33 +231,56 @@ Cette division permet de s'assurer que le modèle est entraîné sur une grande 
 ## <a name="section-4">[Construction et entraînement du modèle](#section-4)
 ###  <a name="sous-section-41">[Sélection de l'architecture du modèle](#sous-section-41)
 
-Plusieurs modèles sont disponibles pour modéliser cet ensemble de données, notamment les réseaux de neurones convolutionnels (CNN), les réseaux de neurones profonds (DNN) et les perceptrons multicouches (MLP). Cependant, dans le cas des MLP et des DNN, l'architecture du modèle se compose uniquement de couches entièrement connectées (FC) avec un certain nombre de neurones par couche. Bien que ces architectures soient généralement utilisées pour des problèmes de classification, elles ne sont pas idéales pour ce cas d'étude. Ces modèles peuvent facilement être biaisés et tomber dans une phase de surapprentissage importante.
+Plusieurs modèles sont disponibles pour modéliser cet ensemble de données, notamment les réseaux de neurones convolutionnels (CNN), les réseaux de neurones profonds (DNN) et les perceptrons multicouches (MLP), également les vision-Transformers(ViT). Cependant, dans le cas des MLP et des DNN, l'architecture du modèle se compose uniquement de couches entièrement connectées (FC) avec un certain nombre de neurones par couche. Bien que ces architectures soient généralement utilisées pour des problèmes de classification, elles ne sont pas idéales pour ce cas d'étude. Ces modèles peuvent facilement être biaisés et tomber dans une phase de surapprentissage importante.
 
-En revanche, l'architecture des CNN est conçue de manière à capturer en premier lieu les caractéristiques les plus importantes des images, telles que la forme, la couleur, la texture, etc., tout en effectuant la réduction de dimensions, ce qui est crucial pour la durée de simulation. C'est ce qui distingue les CNN et les rend très efficaces dans le domaine de l'imagerie, de la vision par ordinateur, du transfert de style neuronal ou même de la détection et reconnaissance de visages. La puissance des réseaux de neurones convolutionnels sera exploitée ici pour obtenir de bonnes performances dans la classification des espèces de plantes.
+En revanche, l'architecture des CNN et celle de ViT sont conçuent de manière à capturer en premier lieu les caractéristiques les plus importantes des images, telles que la forme, la couleur, la texture, etc., tout en effectuant la réduction de dimensions, ce qui est crucial pour la durée de simulation. C'est ce qui distingue les CNN/ViT et les rendent très efficaces dans le domaine de l'imagerie, de la vision par ordinateur, du transfert de style neuronal ou même de la détection et reconnaissance de visages. La puissance des réseaux de neurones convolutionnels sera exploitée ici pour obtenir de bonnes performances dans la classification des espèces de plantes.
 
-> plus de détails sur l'architecture du modèle CNN [ici](https://github.com/amiehe-essomba/plants_project/blob/computer-vision/CnnNet.md)
+> plus de détails sur l'architecture du modèle CNN utilisé [ici](https://github.com/amiehe-essomba/plants_project/blob/computer-vision/CnnNet.md)
 
-###  <a name="sous-section-41">[Mise en place du modèle](#sous-section-42)
+###  <a name="sous-section-42">[Mise en place du modèle](#sous-section-42)
 Plus de détails sur la mise en place du modèlel [ici](https://github.com/amiehe-essomba/plants_project/blob/computer-vision/CnnNet.md)
 
-###  <a name="sous-section-41">[Configuration de l'entraînement (hyperparamètres, fonction de perte, optimiseur)](#sous-section-43)
+###  <a name="sous-section-43">[Configuration de l'entraînement (hyperparamètres, fonction de perte, optimiseur)](#sous-section-43)
 
-1. __```functions pertes pour évaluer les performances de la DG```__
-  * sparse_categorical_crossentropy 
+1. __```function perte pour évaluer les performances de la DG```__
   * categorical_crossentropy
 
-2. __```Types d'optimiseurs pour la descente de gradient (DG)```__
-  * Adam(learnig_rate=1e-3)
-  * Stochastic Gradient Descent (SGD(momentum=0.9, learning_rate=1e-2))
+2. __```Type d'optimiseur pour la descente de gradient (DG)```__
+  * Adam(learnig_rate=1e-3, beta_1=0.9, beta_2=0.999)
 
 3. __```metriques utilisée pour évaluer les performances du modèle```__ 
   * accuracy
   * recall
   * matrice de confusion 
 
-Ces trois points illustrent l'ensemble des hyperparamètres, fonctions de pertes, optimiseurs et metriques testés pour trouver le "best" modèle.
+4. __```Callbacks```__
+
+  Voir les détails de callbacks [ici](https://github.com/amiehe-essomba/plants_project/blob/computer-vision/CnnNet.md)
+
+> Enregistrement du meilleurs modèle 
+> Enreistrement des modèles à chaque époque
+> Configuration du EarlyStopping 
+> Configuration du ReduceLROnPlateau 
+
+###  <a name="sous-section-44">[Entraînement du modèle sur les données](#sous-section-44)
+
+Le modèle de CNN qui a été entrainé sur :
+> 100 époques 
+> learning_rate de 1e-3 et qui a été modifié evec le ReduceRLOnPlateau jusqu'a la veleur de 1e-5
+> un batch_size de 128 pour le training et 64 pour le testing 
+> durée total 24h
+
+
+## <a name="section-4">[Évaluation du modèle](#section-5)
+Une fois que la phase de prétraitement achevé, une normalisation des données par 255. pixels effectuée et les hyper paramètres définis
+une prmière modélisation à été efectuée sur des images avec un fond blanc, suivie d'une seconde modélisation avec un fond noir et affin une modélisation avec un fond normal.
+
+### <a name="section-51">[Évaluation des performances du modèle](#sous-section-51)
+![logo](/images/accuracy.png)
+![logo](/images/accuracy_b.png)
 
 ## Acknowledgement :
+
 
 
 ## Authors : 
